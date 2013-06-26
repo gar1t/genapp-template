@@ -1,0 +1,8 @@
+%%% -*-erlang-*-
+{application, genapp_template,
+  [{description, "Temporary app for genapp template support"},
+   {vsn, "0.1.0"},
+   {modules, []},
+   {registered, []},
+   {applications, [kernel, os, stdlib, jiffy, lists]},
+   {start_phases, []}]}.

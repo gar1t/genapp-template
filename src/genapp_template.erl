@@ -3,11 +3,8 @@
 -export([write_template/2]).
 
 write_template(Template, Filename) when is_list(Template) ->
-    {ok, Json} = file:read_file("/tmp/metadata.json"),
-    Decoded = jiffy:decode(Json),
-    Metadata = json_to_proplist(Decoded),
-    Parsed = parse_metadata(Metadata),
-    Content = compile_template(Template, Parsed),
+    Metadata = json_to_proplist(file, "/tmp/metadata.json"),
+    Content = compile_template(Template, parse_metadata(Metadata)),
     ok = file:write_file(Filename, Content).
 
 compile_template(Template, Vars) when is_list(Template) ->
@@ -20,6 +17,9 @@ template_module(Template) ->
     Hash = erlang:phash2(Template, 10000000),
     list_to_atom("template_" ++ integer_to_list(Hash)).
 
+json_to_proplist(file, Filename) ->
+    {ok, Json} = file:read_file(Filename),
+    json_to_proplist(jiffy:decode(Json)).
 json_to_proplist({L}) ->
     json_to_proplist(L);
 json_to_proplist(L) when is_list(L) ->

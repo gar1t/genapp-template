@@ -1,4 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-  <javaVersion num={{java.version}} />
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    {% for database_entry in database %}
+    <Resource auth="Container" type="javax.sql.DataSource"
+      name="{{database_entry.__resource_name__}}" url="jdbc:{{database_entry.DATABASE_URL}}"
+      driverClassName="jdbc.org.mysql.Driver" username="{{database_entry.DATABASE_USERNAME}}"
+      password="{{database_entry.DATABASE_PASSWORD}}"
+    />
+    {% endfor %}
 </Context>

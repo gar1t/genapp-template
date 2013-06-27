@@ -4,7 +4,9 @@
 
 write_template(Template, Filename) when is_list(Template) ->
     {ok, Json} = file:read_file("/tmp/metadata.json"),
-    Parsed = parse_metadata(json_to_proplist(Json)),
+    Decoded = jiffy:decode(Json),
+    Metadata = json_to_proplist(Decoded),
+    Parsed = parse_metadata(Metadata),
     Content = compile_template(Template, Parsed),
     ok = file:write_file(Filename, Content).
 
@@ -28,8 +30,7 @@ json_to_proplist(X) -> X.
 
 parse_metadata(Metadata) ->
     parse_metadata(Metadata, [{<<"metadata">>, Metadata}]).
-parse_metadata([H|T], ParsedMetadata) ->
-    {_, ResourceDef} = H,
+parse_metadata([ {_, ResourceDef} | T ], ParsedMetadata) ->
     FormattedDefinition = format_resource(ResourceDef),
     parse_metadata(T, merge_resource(FormattedDefinition, ParsedMetadata));
 parse_metadata([], ParsedMetadata) ->
@@ -40,20 +41,17 @@ format_resource(Definition) ->
     format_resource(ResourceTypeTuple, Definition).
 format_resource(false, _) ->
     false;
-format_resource(ResourceTypeTuple, Definiton) ->
-    {_, ResourceType} = ResourceTypeTuple,
+format_resource({_, ResourceType} , Definiton) ->
     {ResourceType, Definiton}.
 
 merge_resource(false, ParsedMetadata) ->
     ParsedMetadata;
-merge_resource(Resource, ParsedMetadata) ->
-    {ResourceType, ResourcePropList} = Resource,
+merge_resource({ResourceType, ResourcePropList}, ParsedMetadata) ->
     CurrentData = lists:keyfind(ResourceType, 1, ParsedMetadata),
     merge_resource(CurrentData, ResourceType, ResourcePropList, ParsedMetadata).
 merge_resource(false, ResourceType, ResourcePropList, ParsedMetadata) ->
     lists:append([ParsedMetadata, [{ResourceType, [{ResourcePropList}]}]]);
-merge_resource(CurrentData, ResourceType, ResourcePropList, ParsedMetadata) ->
-    {ResourceType, CurrentList} = CurrentData,
+merge_resource({ResourceType, CurrentList}, ResourceType, ResourcePropList, ParsedMetadata) ->
     MergedList = lists:append([CurrentList, [{ResourcePropList}]]),
     PrunedMetadata = lists:keydelete(ResourceType, 1, ParsedMetadata),
     lists:append([[{ResourceType, MergedList}], PrunedMetadata]).

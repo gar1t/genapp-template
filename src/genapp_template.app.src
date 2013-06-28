@@ -4,5 +4,5 @@
    {vsn, "0.1.0"},
    {modules, []},
    {registered, []},
-   {applications, [kernel, os, stdlib, jiffy, lists]},
+   {applications, [kernel, os, stdlib, jiffy, lists, re]},
    {start_phases, []}]}.

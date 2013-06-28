@@ -3,9 +3,11 @@
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
     {% for database_entry in database %}
     <Resource auth="Container" type="javax.sql.DataSource"
-      name="{{database_entry.__resource_name__}}" url="jdbc:{{database_entry.DATABASE_URL}}"
-      driverClassName="jdbc.org.mysql.Driver" username="{{database_entry.DATABASE_USERNAME}}"
-      password="{{database_entry.DATABASE_PASSWORD}}"
+      name="{{database_entry.name}}"
+      url="jdbc:{{database_entry.url}}"
+      driverClassName="{{database_entry.driverName}}"
+      username="{{database_entry.username}}"
+      password="{{database_entry.password}}"
     />
     {% endfor %}
 </Context>

@@ -1,4 +1,4 @@
 #TODO
 
-[ ] Multiplication filter/tag
-[ ] Merge to Genapp Core
+- [ ] Multiplication filter/tag
+- [ ] Merge to Genapp Core

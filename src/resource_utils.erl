@@ -10,7 +10,7 @@ format_resource({_, <<"database">>}, Definition) ->
 format_resource({_, <<"email">>}, Definition) ->
     {<<"email">>, resource_email:parse_resource(Definition)};
 format_resource({_, <<"session-store">>}, Definition) ->
-    {<<"session-store">>, resource_session:parse_resource(Definition)};
+    {<<"session_store">>, resource_session:parse_resource(Definition)};
 format_resource({_, _}, _) ->
     false;
 format_resource(false, _) ->

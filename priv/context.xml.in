@@ -15,4 +15,27 @@
       {% endfor %}
     />
     {% endfor %}
+    {% for email_entry in email %}
+      <Resource auth="Container", type="javax.mail.session"
+        name="{{email_entry.name}}"
+        mail.smtp.user="{{email_entry.username}}"
+        mail.smtp.password="{{email_entry.password}}"
+        mail.smtp.host="{{email_entry.host}}"
+        mail.smtp.auth="true"
+      />
+    {% endfor %}
+    {% for session_entry in session_store %}
+      <Resource
+        className="de.javakaffee.web.msm.MemcachedBackupSessionManager"
+        transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"
+        memcachedProtocol="binary"
+        requestUriIgnorePattern=".*\\.(ico|png|gif|jpg|css|js)$"
+        sessionBackupAsync="false"
+        sticky="false"
+        name="{{session_entry.name}}"
+        username="{{session_entry.username}}"
+        password="{{session_entry.password}}"
+        memcachedNodes="{% for server in session_entry.servers %}http://{{server}}8091/pools{% if not forloop.last %},{% endif %}{% endfor %}"
+      />
+    {% endfor %}
 </Context>

@@ -10,7 +10,7 @@
       password="{{database_entry.password}}"
       {% for key, value in database_entry.configuration %}
         {% if key in stack_opts.db_params %}
-          {{key}}={{value}}
+          {{key}}="{{value}}"
         {% endif %}
       {% endfor %}
     />

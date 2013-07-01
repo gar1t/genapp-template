@@ -7,8 +7,8 @@ parse_resource(Definition) ->
     ServerList = lists:map(fun(L) -> list_to_binary(L) end, ServerStringList),
     CleanDefinition = lists:keydelete(<<"servers">>, 1, Definition),
     NewDefinition = lists:append([CleanDefinition, [{<<"servers">>, ServerList}]]),
-    ReplaceKeys = [{<<"__resource_name__">>, <<"name">>}, 
+    KnownKeys = [{<<"__resource_name__">>, <<"name">>}, 
     			   {<<"servers">>},
     			   {<<"username">>},
     			   {<<"password">>}],
-    resource_utils:split_and_replace_keys(NewDefinition, ReplaceKeys).
+    resource_utils:split_and_replace_keys(NewDefinition, KnownKeys).

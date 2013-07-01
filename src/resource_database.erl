@@ -2,11 +2,11 @@
 -export([parse_resource/1]).
 
 parse_resource(Definition) ->
-	ReplaceKeys = [{<<"DATABASE_URL">>, <<"url">>},
+	KnownKeys = [{<<"DATABASE_URL">>, <<"url">>},
                    {<<"DATABASE_USERNAME">>, <<"username">>},
                    {<<"DATABASE_PASSWORD">>, <<"password">>},
                    {<<"__resource_name__">>, <<"name">>}],
-    NewDefinition = resource_utils:split_and_replace_keys(Definition, ReplaceKeys),
+    NewDefinition = resource_utils:split_and_replace_keys(Definition, KnownKeys),
     {<<"url">>, Url} = lists:keyfind(<<"url">>, 1, NewDefinition),
     UrlDerivatives = url_properties(Url),
     lists:append([UrlDerivatives, NewDefinition]).

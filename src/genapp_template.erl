@@ -1,18 +1,28 @@
 -module(genapp_template).
--export([write_template/2]).
+-export([write_template/2, write_template/3]).
 
-write_template(Template, Filename) when is_list(Template) ->
-    Metadata = file_utils:json_to_proplist(file, "/tmp/metadata.json"),
-    Parsed = parse_metadata(Metadata),
+write_template(Template, Filename) ->
+    Parsed = parse_metadata({get_metadata()}),
+    file_utils:compile_template(Template, Parsed, Filename).
+write_template(Template, Filename, OptionsFilename) ->
+    Options = file_utils:json_to_proplist(file, OptionsFilename),
+    Parsed = parse_metadata({get_metadata(), Options}),
     file_utils:compile_template(Template, Parsed, Filename).
 
-parse_metadata(Metadata) ->
-    parse_metadata(Metadata, [{<<"metadata">>, Metadata}]).
+get_metadata() ->
+    MetadataFile = os:getenv("genapp_dir") ++  "/metadata.json",
+    file_utils:json_to_proplist(file, MetadataFile).
+
+parse_metadata({Metadata}) ->
+    parse_metadata(Metadata, [{<<"metadata">>, Metadata}]);
+parse_metadata({Metadata, Options}) ->
+    parse_metadata(Metadata, 
+        [{<<"metadata">>, Metadata}, 
+        {<<"stack_opts">>, Options}]).
 parse_metadata([ {_, ResourceDef} | T ], ParsedMetadata) ->
     FormattedDefinition = resource_utils:format_resource(ResourceDef),
     parse_metadata(T, merge_resource(FormattedDefinition, ParsedMetadata));
 parse_metadata([], ParsedMetadata) ->
-    io:format(ParsedMetadata),
     ParsedMetadata.
 
 merge_resource(false, ParsedMetadata) ->
@@ -27,4 +37,3 @@ merge_resource({ResourceType, CurrentList}, ResourceType,
     MergedList = lists:append([CurrentList, [{ResourcePropList}]]),
     PrunedMetadata = lists:keydelete(ResourceType, 1, ParsedMetadata),
     lists:append([[{ResourceType, MergedList}], PrunedMetadata]).
-

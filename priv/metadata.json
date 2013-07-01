@@ -1,36 +1,108 @@
 {
-    "app": {
-        "env": {
-            "DATABASE_MAXACTIVE_MYDB": "10", 
-            "DATABASE_PASSWORD_MYDB": "test", 
-            "DATABASE_URL_MYDB": "mysql://localhost:3306/test", 
-            "DATABASE_USERNAME_MYDB": "test", 
-            "JENKINS_URL": "https://xyz.ci.cloudbees.com",
-            "MYSQL_MAX_POOL_SIZE_MYDB": "10", 
-            "MYSQL_PASSWORD_MYDB": "pass", 
-            "MYSQL_URL_MYDB": "mysql://localhost:3306/test", 
-            "MYSQL_USERNAME_MYDB": "test", 
-            "SENDGRID_PASSWORD": "sendgridpassword",
-            "SENDGRID_SMTP_HOST": "smtp.sendgrid.net", 
-            "SENDGRID_USERNAME": "cloudbees_xyz",
-            "config": "production.properties", 
-            "max-pool-size": "10",
-            "auth-realm.database":"mydb"
-        }, 
-        "plugins": [
-            "glassfish3_clickstack"
-        ]
-    }, 
-    "cb-db": {
-        "DATABASE_PASSWORD": "test", 
-        "DATABASE_URL": "mysql://localhost:3306/test", 
-        "DATABASE_USERNAME": "test", 
-        "__resource_name__": "mydb", 
-        "__resource_type__": "database", 
-        "max-pool-size": "10"
-    }, 
-    "java": {
-        "opts": "-Duser.timezone=GMT -Dfile.encoding=UTF-8 -Dtest5.opt1=value1 -Xmx128M", 
-        "version": "1.7"
-    }
+   "cloudant":{
+      "server_address":"https:\/\/account.cloudbees.cloudant.com",
+      "__resource_type__":"cloudant",
+      "username":"webinar.cloudbees",
+      "__resource_name__":"cloudant",
+      "password":"cloudant_pass"
+   },
+   "app":{
+      "plugins":[
+         {
+            "name":"tomcat7",
+            "src":"http:\/\/cloudbees-clickstack.s3.amazonaws.com\/testing\/tomcat7-plugin.zip"
+         },
+         {
+            "name":"appdynamics",
+            "src":"http:\/\/cloudbees-clickstack.s3.amazonaws.com\/extra\/appdynamics-plugin.zip"
+         }
+      ],
+      "env":{
+         "CLOUDANT_password":"cloudant_pass",
+         "DATABASE_USERNAME_DATABASE2":"db2_user",
+         "CLOUDANT_username":"account.cloudbees",
+         "CLOUDANT_server_address":"https:\/\/account.cloudbees.cloudant.com",
+         "SENDGRID_SMTP_HOST":"smtp.sendgrid.net",
+         "MYSQL_USERNAME_DATABASE2":"db2_user",
+         "MYSQL_URL_DATABASE2":"mysql:\/\/db2_host:3306\/db2",
+         "DATABASE_PASSWORD_DATABASE":"db_pass",
+         "DATABASE_USERNAME_DATABASE":"db_user",
+         "MYSQL_PASSWORD_DATABASE":"db_pass",
+         "JENKINS_URL":"https:\/\/account.ci.cloudbees.com",
+         "DATABASE_PASSWORD_DATABASE2":"db2_pass",
+         "SENDGRID_PASSWORD":"sendgrid_pass",
+         "COLLABNET_RESOURCE_URL":"https:\/\/app.codesion.com\/ajax#dashboard",
+         "xwiki_url":"http:\/\/account.cloud.xwiki.com",
+         "MYSQL_URL_DATABASE":"mysql:\/\/db_host:3306\/db",
+         "DATABASE_URL_DATABASE":"mysql:\/\/db_host:3306\/db",
+         "MYSQL_PASSWORD_DATABASE2":"db2_pass",
+         "DATABASE_URL_DATABASE2":"mysql:\/\/db2_host:3306\/db2",
+         "SENDGRID_USERNAME":"sendgrid_user",
+         "MYSQL_USERNAME_DATABASE":"db_user"
+      }
+   },
+   "cgroup":{
+      "cpu_shares":50
+   },
+   "appdynamics":{
+      "__resource_type__":"appdynamics",
+      "account-access-key":"secret",
+      "controller-port":"80",
+      "__resource_name__":"appdynamics",
+      "controller-host":"appdynamics_host",
+      "account-name":"account-cloudbees"
+   },
+   "cb-db_3":{
+      "__resource_type__":"database",
+      "DATABASE_URL":"mysql:\/\/db_host:3306\/db",
+      "__resource_name__":"database2",
+      "DATABASE_PASSWORD":"db_pass",
+      "DATABASE_USERNAME":"db_user",
+      "maxIdle": "5"
+   },
+   "collabnet":{
+      "__resource_type__":"collabnet",
+      "RESOURCE_URL":"https:\/\/app.codesion.com\/ajax#dashboard",
+      "__resource_name__":"collabnet"
+   },
+   "xwiki":{
+      "__resource_type__":"xwiki",
+      "xwiki_url":"http:\/\/account.cloud.xwiki.com",
+      "__resource_name__":"xwiki"
+   },
+   "jvm":{
+      "opts":"-Duser.timezone=GMT -Dfile.encoding=UTF-8 -Xmx128M"
+   },
+   "cb-app_session-store":{
+      "__resource_type__":"session-store",
+      "username":"session_user",
+      "servers":"session_host1.com,session_host2.com",
+      "__resource_name__":"_internal_sessionstore",
+      "password":"session_pass"
+   },
+   "sendgrid":{
+      "__resource_type__":"email",
+      "SENDGRID_SMTP_HOST":"smtp.sendgrid.net",
+      "__resource_name__":"mail\/SendGrid",
+      "SENDGRID_USERNAME":"cloudbees_account",
+      "SENDGRID_PASSWORD":"sendgrid_pass"
+   },
+   "tomcat7":{
+      "security_mode":"public"
+   },
+   "cb-db":{
+      "__resource_type__":"database",
+      "DATABASE_URL":"mysql:\/\/db2_host:3306\/db2",
+      "__resource_name__":"database",
+      "DATABASE_PASSWORD":"db2_pass",
+      "DATABASE_USERNAME":"db2_user"
+   },
+   "java":{
+      "opts":"-Duser.timezone=GMT -Dfile.encoding=UTF-8 -Xmx128M"
+   },
+   "dev-at-cloud":{
+      "__resource_type__":"dev-at-cloud",
+      "__resource_name__":"dev-at-cloud",
+      "JENKINS_URL":"https:\/\/account.ci.cloudbees.com"
+   }
 }

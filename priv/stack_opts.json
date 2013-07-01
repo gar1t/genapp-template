@@ -1,0 +1,9 @@
+{"db_params": 
+	["minIdle", "maxIdle", "maxActive", "maxWait", "validationQuery",
+	"validationQueryTimeout", "testOnBorrow", "testOnReturn", 
+	"timeBetweenEvictionRunsMillis", "numTestsPerEvictionRun", 
+	"minEvictableIdleTimeMillis", "testWhileIdle", "removeAbandoned", 
+	"removeAbandonedTimeout", "logAbandoned", "defaultAutoCommit", "defaultReadOnly",
+    "defaultTransactionIsolation", "poolPreparedStatements", 
+    "maxOpenPreparedStatements", "defaultCatalog", "connectionInitSqls", 
+    "connectionProperties", "accessToUnderlyingConnectionAllowed"]}

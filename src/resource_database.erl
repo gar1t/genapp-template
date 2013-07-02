@@ -4,12 +4,12 @@
 
 parse_resource(Definition) ->
     KnownKeys =
-        [{<<"DATABASE_URL">>, <<"url">>},
-         {<<"DATABASE_USERNAME">>, <<"username">>},
-         {<<"DATABASE_PASSWORD">>, <<"password">>},
-         {<<"__resource_name__">>, <<"name">>}],
+	[{<<"DATABASE_URL">>, <<"url">>},
+	 {<<"DATABASE_USERNAME">>, <<"username">>},
+	 {<<"DATABASE_PASSWORD">>, <<"password">>},
+	 {<<"__resource_name__">>, <<"name">>}],
     NewDefinition =
-        resource_utils:split_and_replace_keys(Definition, KnownKeys),
+	resource_utils:split_and_replace_keys(Definition,KnownKeys),
     {<<"url">>, Url} = lists:keyfind(<<"url">>, 1, NewDefinition),
     UrlDerivatives = url_properties(Url),
     lists:append([UrlDerivatives, NewDefinition]).

@@ -1,4 +1,5 @@
 -module(genapp_template).
+
 -export([write_template/2, write_template/3]).
 
 write_template(Template, Filename) ->
@@ -16,8 +17,8 @@ get_metadata() ->
 parse_metadata({Metadata}) ->
     parse_metadata(Metadata, [{<<"metadata">>, Metadata}]);
 parse_metadata({Metadata, Options}) ->
-    parse_metadata(Metadata, 
-        [{<<"metadata">>, Metadata}, 
+    parse_metadata(Metadata,
+        [{<<"metadata">>, Metadata},
         {<<"stack_opts">>, Options}]).
 parse_metadata([ {_, ResourceDef} | T ], ParsedMetadata) ->
     FormattedDefinition = resource_utils:format_resource(ResourceDef),
@@ -32,7 +33,7 @@ merge_resource({ResourceType, ResourcePropList}, ParsedMetadata) ->
     merge_resource(CurrentData, ResourceType, ResourcePropList, ParsedMetadata).
 merge_resource(false, ResourceType, ResourcePropList, ParsedMetadata) ->
     lists:append([ParsedMetadata, [{ResourceType, [{ResourcePropList}]}]]);
-merge_resource({ResourceType, CurrentList}, ResourceType, 
+merge_resource({ResourceType, CurrentList}, ResourceType,
                 ResourcePropList, ParsedMetadata) ->
     MergedList = lists:append([CurrentList, [{ResourcePropList}]]),
     PrunedMetadata = lists:keydelete(ResourceType, 1, ParsedMetadata),

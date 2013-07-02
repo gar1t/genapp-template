@@ -1,4 +1,5 @@
 -module(file_utils).
+
 -export([json_to_proplist/2, compile_template/3]).
 
 compile_template(Template, Vars, Filename) when is_list(Template) ->

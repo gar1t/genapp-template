@@ -41,3 +41,43 @@ java_driver(<<"oracle">>) ->
 ### Next Step
 
 Get some idea of how hard it will be to implement filters.
+
+## CLI
+
+```
+Maybe something like this:
+
+NAME
+	genapp-template-render - render a template
+
+SYNOPSIS
+	genapp-template-render [OPTIONS] TEMPLATE FILE
+
+OPTIONS
+	-h, --help
+	    Print help and exit.
+
+	-c CONTEXT, --context=CONTEXT
+	   Use a context whn rendering the template. CONTEXT is in the format
+	   NAME:PATH, where NAME is the name of the context and PATH is a path
+	   to the context source. Currently only JSON formats are supported.
+	   Multiple contexts can be specified by using multiple options.
+
+CONTEXTS
+	A context is a hierarchical data structure that can be accessed
+	from a template using the Django templating langauge. Each context
+	is referenced using its name as specified by the context option.
+
+	Here's a sample template snippet that iterates through each value
+	in a "metadata"  associatvie array context:
+
+	   {% for key, value in metadata.items %}
+	   key = {{key}}
+	   ---------------------------------
+	   {{value|pprint}}
+	   {% endfor %}
+
+EXAMPLES
+	genapp-template-render -c metadata:metadata.json context.xml.in context.xml
+
+```

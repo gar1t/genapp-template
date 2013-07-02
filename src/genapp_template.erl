@@ -5,6 +5,7 @@
 write_template(Template, Filename) ->
     Parsed = parse_metadata({get_metadata()}),
     file_utils:compile_template(Template, Parsed, Filename).
+
 write_template(Template, Filename, OptionsFilename) ->
     Options = file_utils:json_to_proplist(file, OptionsFilename),
     Parsed = parse_metadata({get_metadata(), Options}),
@@ -20,6 +21,7 @@ parse_metadata({Metadata, Options}) ->
     parse_metadata(Metadata,
         [{<<"metadata">>, Metadata},
         {<<"stack_opts">>, Options}]).
+
 parse_metadata([ {_, ResourceDef} | T ], ParsedMetadata) ->
     FormattedDefinition = resource_utils:format_resource(ResourceDef),
     parse_metadata(T, merge_resource(FormattedDefinition, ParsedMetadata));
@@ -30,7 +32,9 @@ merge_resource(false, ParsedMetadata) ->
     ParsedMetadata;
 merge_resource({ResourceType, ResourcePropList}, ParsedMetadata) ->
     CurrentData = lists:keyfind(ResourceType, 1, ParsedMetadata),
-    merge_resource(CurrentData, ResourceType, ResourcePropList, ParsedMetadata).
+    merge_resource(
+      CurrentData, ResourceType, ResourcePropList, ParsedMetadata).
+
 merge_resource(false, ResourceType, ResourcePropList, ParsedMetadata) ->
     lists:append([ParsedMetadata, [{ResourceType, [{ResourcePropList}]}]]);
 merge_resource({ResourceType, CurrentList}, ResourceType,

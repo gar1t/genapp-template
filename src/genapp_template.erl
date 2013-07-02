@@ -1,6 +1,10 @@
 -module(genapp_template).
 
--export([write_template/2, write_template/3]).
+-export([write_template_v2/3, write_template/2, write_template/3]).
+
+write_template_v2(Template, Metadata, Target) ->
+    Parsed = parse_metadata({get_metadata(Metadata)}),
+    file_utils:compile_template(Template, Parsed, Target).
 
 write_template(Template, Filename) ->
     Parsed = parse_metadata({get_metadata()}),
@@ -10,6 +14,9 @@ write_template(Template, Filename, OptionsFilename) ->
     Options = file_utils:json_to_proplist(file, OptionsFilename),
     Parsed = parse_metadata({get_metadata(), Options}),
     file_utils:compile_template(Template, Parsed, Filename).
+
+get_metadata(Filename) ->
+    file_utils:json_to_proplist(file, Filename).
 
 get_metadata() ->
     MetadataFile = os:getenv("genapp_dir") ++  "/metadata.json",

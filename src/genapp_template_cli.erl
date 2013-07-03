@@ -7,7 +7,7 @@
 run(Args) ->
     setup_temp_tracing(),
     {Template, Metadata, Target} = parse_args(Args),
-    genapp_template:write_template_v2(Template, Metadata, Target).
+    genapp_template:write_template(Template, Metadata, Target).
 
 setup_temp_tracing() ->
     genapp_debug:trace_module(resource_database).

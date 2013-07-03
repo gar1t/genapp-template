@@ -4,7 +4,9 @@
 
 compile_template(Template, Vars, Filename) when is_list(Template) ->
     Mod = template_module(Template),
-    ok = erlydtl:compile(Template, Mod),
+    %% TODO Find what's wrong here
+    Options = [{custom_filters_modules, [custom_filters]}],
+    ok = erlydtl:compile(Template, Mod, Options),
     {ok, Content} = Mod:render(Vars),
     ok = file:write_file(Filename, Content).
 

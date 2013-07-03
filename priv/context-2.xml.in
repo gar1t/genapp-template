@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+
+
+    {% for section in metadata|__resource_type__=database %}
+      {% set database_entry = section:cb_db_config %}
+
+      <Resource auth="Container" type="javax.sql.DataSource"
+        name="{{database_entry.name}}"
+        url="jdbc:{{database_entry.url}}"
+        driverClassName="{{database_entry.driverName}}"
+        username="{{database_entry.username}}"
+        password="{{database_entry.password}}"
+
+        {% for key, value in database_entry.configuration %}
+          {% if key in stack_opts.db_params %}
+            {{key}}="{{value}}"
+          {% endif %}
+        {% endfor %}
+    />
+    {% endfor %}
+
+
+    {% for database_entry in database %}
+    <Resource auth="Container" type="javax.sql.DataSource"
+      name="{{database_entry.name}}"
+      url="jdbc:{{database_entry.url}}"
+      driverClassName="{{database_entry.driverName}}"
+      username="{{database_entry.username}}"
+      password="{{database_entry.password}}"
+      {% for key, value in database_entry.configuration %}
+        {% if key in stack_opts.db_params %}
+          {{key}}="{{value}}"
+        {% endif %}
+      {% endfor %}
+    />
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
+    {% for email_entry in email %}
+      <Resource auth="Container", type="javax.mail.session"
+        name="{{email_entry.name}}"
+        mail.smtp.user="{{email_entry.username}}"
+        mail.smtp.password="{{email_entry.password}}"
+        mail.smtp.host="{{email_entry.host}}"
+        mail.smtp.auth="true"
+      />
+    {% endfor %}
+    {% for session_entry in session_store %}
+      <Resource
+        className="de.javakaffee.web.msm.MemcachedBackupSessionManager"
+        transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"
+        memcachedProtocol="binary"
+        requestUriIgnorePattern=".*\\.(ico|png|gif|jpg|css|js)$"
+        sessionBackupAsync="false"
+        sticky="false"
+        name="{{session_entry.name}}"
+        username="{{session_entry.username}}"
+        password="{{session_entry.password}}"
+        memcachedNodes="{% for server in session_entry.servers %}http://{{server}}8091/pools{% if not forloop.last %},{% endif %}{% endfor %}"
+      />
+    {% endfor %}
+</Context>

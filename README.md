@@ -34,13 +34,14 @@ java_driver(<<"oracle">>) ->
 
 ### Options
 
-1. Use filters
+1. __Use filters__
 
 2. Use json smart transforms
 
 ### Next Step
 
-Get some idea of how hard it will be to implement filters.
+Get some idea of how hard it will be to implement filters. 
+__Relatively easy__
 
 ## CLI
 

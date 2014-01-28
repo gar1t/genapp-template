@@ -9,17 +9,19 @@ run(Args) ->
     {Template, Metadata, Target} = parse_args(Args),
     genapp_template:write_template(Template, Metadata, Target).
 
-setup_temp_tracing() ->
-    genapp_debug:trace_module(resource_database).
+setup_temp_tracing() -> ok.
+%%    genapp_debug:trace_module(resource_database).
 
-parse_args(["-h"]) ->
-    usage(0);
+parse_args(["-h"]) -> usage(0);
+parse_args(["--help"]) -> usage(0);
+parse_args([Template, Metadata]) ->
+    {Template, Metadata, stdout};
 parse_args([Template, Metadata, Target]) ->
     {Template, Metadata, Target};
 parse_args(_) ->
     usage(1).
 
 usage(Exit) ->
-    io:format("usage: ~s template metadata target\n", [?PROG]),
+    io:format("usage: ~s template metadata [target]\n", [?PROG]),
     erlang:halt(Exit).
 

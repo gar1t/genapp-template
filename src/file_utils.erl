@@ -2,13 +2,18 @@
 
 -export([json_to_proplist/2, compile_template/3]).
 
-compile_template(Template, Vars, Filename) when is_list(Template) ->
+compile_template(Template, Vars, Target) when is_list(Template) ->
     Mod = template_module(Template),
     %% TODO Find what's wrong here
     Options = [{custom_filters_modules, [custom_filters]}],
-    ok = erlydtl:compile(Template, Mod, Options),
+    {ok, _} = erlydtl:compile(Template, Mod, Options),
     {ok, Content} = Mod:render(Vars),
-    ok = file:write_file(Filename, Content).
+    write(Content, Target).
+
+write(Bin, stdout) ->
+    io:format("~s~n", [Bin]);
+write(Bin, Filename) ->
+    ok = file:write_file(Filename, Bin).
 
 template_module(Template) ->
     Hash = erlang:phash2(Template, 10000000),

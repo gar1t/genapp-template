@@ -1,6 +1,6 @@
 -module(resource_utils).
 
--export([split_and_replace_keys/2, filter_metadata/1]).
+-export([split_and_replace_keys/2, filter_metadata/2, filter_resource/2]).
 
 filter_metadata(Metadata, ResourceType) ->
     filter_metadata(Metadata, ResourceType, []).
